@@ -1,0 +1,19 @@
+
+# ignore target and all under it
+
+target/
+
+.idea/
+
+*.iml
+
+bin
+
+
+target
+.settings
+.project
+.classpath
+.idea
+*.log
+*.iml
