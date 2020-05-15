@@ -46,7 +46,7 @@ public class AccountRestController {
 	 * @return response to server
 	 */
 	@PostMapping("/add")
-	public ResponseEntity<String> addAccount(Map<String, Object> request) {
+	public ResponseEntity<String> addAccount(@RequestBody Map<String, Object> request) {
 		Account account = AccountUtil.convertToAccount(request);
 		Customer customer = AccountUtil.convertToCustomer(request);
 		Address address = AccountUtil.convertToAddress(request);
