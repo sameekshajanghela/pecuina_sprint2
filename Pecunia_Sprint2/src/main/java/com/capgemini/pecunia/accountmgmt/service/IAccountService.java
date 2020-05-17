@@ -17,11 +17,13 @@ public interface IAccountService {
 
 	List<Account> fetchAllAccounts();
 
-	String updateCustomerName(Account account, Customer customer);
+	boolean updateCustomerName(Account account, Customer customer);
 
-    String updateCustomerContact(Account account, Customer customer);
+	boolean updateCustomerContact(Account account, Customer customer);
 
-	String updateCustomerAddress(Account account, Address address);
+	boolean updateCustomerAddress(Account account, Address address);
+
+	String addCustomerDetails(Customer customer, Address address);
 
 	Customer findByCustomerId(String customerId);
 }

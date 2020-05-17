@@ -25,148 +25,160 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AccountServiceImplementation implements IAccountService {
 
-	@Autowired
-	private IAccountDao accountDao;
+    @Autowired
+    private IAccountDao accountDao;
 
-	@Autowired
-	private ICustomerDao customerDao;
+    @Autowired
+    private ICustomerDao customerDao;
 
-	@Autowired
-	private IAddressDao addressDao;
+    @Autowired
+    private IAddressDao addressDao;
 
-	/**
-	 * @param account,customer,address This method will validate account and add it
-	 *                                 to the database
-	 * @return account
-	 */
-	@Override
-	public String addAccount(Customer customer, Address address, Account account) {
-		if (account == null) {
-			throw new InvalidArgumentException("Account can't be null");
-		}
-		if (address == null) {
-			throw new InvalidArgumentException("Address can't be null");
-		}
-		if (customer == null) {
-			throw new InvalidArgumentException("Customer can't be null");
+    /**
+     * @param account,customer,address This method will validate account and add it
+     *                                 to the database
+     * @return account
+     */
+    @Override
+    public String addAccount(Customer customer, Address address, Account account) {
+        if (account == null) {
+            throw new InvalidArgumentException("Account can't be null");
+        }
+        if (address == null) {
 
-		}
-		String addressId = AccountUtil.generateId(6);
-		address.setAddressId(addressId);
-		addressDao.save(address);
+        }
+        if (customer == null) {
 
-		String customerId = AccountUtil.generateId(6);
-		customer.setCustomerId(customerId);
-		customer.setCustomerAddress(address);
-		customerDao.save(customer);
+        }
+        String addressId = AccountUtil.generateId(6);
+        address.setAddressId(addressId);
+        addressDao.save(address);
 
-		String accountId = AccountUtil.generateId(12);
-		account.setAccountId(accountId);
-		account.setCustomer(customer);
-		accountDao.save(account);
-		return "Account Successfully Added";
-	}
+        String customerId = AccountUtil.generateId(6);
+        customer.setCustomerId(customerId);
+        customer.setCustomerAddress(address);
+        customerDao.save(customer);
 
-	/**
-	 * @param accountId This method will show account details by account id
-	 * @return account
-	 */
-	@Override
-	public Account showAccountDetails(String accountId) {
-		Account account = findByAccountId(accountId);
-		return account;
-	}
+        String accountId = AccountUtil.generateId(12);
+        account.setAccountId(accountId);
+        account.setCustomer(customer);
+        accountDao.save(account);
+        return "Account Successfully Added";
+    }
 
-	/**
-	 * @param accountId This method will fetch the account by account id
-	 * @return
-	 */
-	@Override
-	public Account findByAccountId(String accountId) {
-		Optional<Account> optional = accountDao.findById(accountId);
-		if (optional.isPresent()) {
-			Account account = optional.get();
-			return account;
-		}
-		throw new AccountNotFoundException("account not found for id=" + accountId);
-	}
+    /**
+     * @param accountId This method will show account details by account id
+     * @return account
+     */
+    @Override
+    public Account showAccountDetails(String accountId) {
+        Account account = findByAccountId(accountId);
+        return account;
+    }
 
-	@Override
-	public Customer findByCustomerId(String customerId) {
-		Optional<Customer> optional = customerDao.findById(customerId);
-		if (optional.isPresent()) {
-			Customer customer = optional.get();
-			return customer;
-		}
-		throw new CustomerNotFoundException("customer not found for id=" + customerId);
-	}
+    /**
+     * @param accountId This method will fetch the account by account id
+     * @return
+     */
+    @Override
+    public Account findByAccountId(String accountId) {
+        Optional<Account> optional = accountDao.findById(accountId);
+        if (optional.isPresent()) {
+            Account account = optional.get();
+            return account;
+        }
+        throw new AccountNotFoundException("account not found for id=" + accountId);
+    }
 
-	/**
-	 * This method will return list of all account
-	 *
-	 * @return List of accounts
-	 */
-	@Override
-	public List<Account> fetchAllAccounts() {
-		List<Account> list = accountDao.findAll();
-		return list;
-	}
+    @Override
+    public Customer findByCustomerId(String customerId) {
+        Optional<Customer> optional = customerDao.findById(customerId);
+        if (optional.isPresent()) {
+            Customer customer = optional.get();
+            return customer;
+        }
+        throw new CustomerNotFoundException("customer not found for id=" + customerId);
+    }
 
-	/**
-	 * @param accountId This method will delete the account by account id
-	 * @return
-	 */
-	@Override
-	public boolean deleteAccount(String accountId) {
-		Account account = findByAccountId(accountId);
-		account.setAccountStatus("Close");
-		return true;
-	}
+    /**
+     * This method will return list of all account
+     *
+     * @return List of accounts
+     */
+    @Override
+    public List<Account> fetchAllAccounts() {
+        List<Account> list = accountDao.findAll();
+        return list;
+    }
 
-	/**
-	 * This method will update the customer name
-	 *
-	 * @return
-	 */
-	@Override
-	public String updateCustomerName(Account account, Customer customer) {
-		boolean exists = accountDao.existsById(account.getAccountId());
-		if (exists) {
-			customer = customerDao.save(customer);
-			return "Customer Name Updated Successfully";
-		}
-		return " Update Unsuccessful";
-	}
+    /**
+     * @param accountId This method will delete the account by account id
+     * @return
+     */
+    @Override
+    public boolean deleteAccount(String accountId) {
+        Account account = findByAccountId(accountId);
+        account.setAccountStatus("Close");
+        return true;
+    }
 
-	/**
-	 * This method will update the customer contact
-	 *
-	 * @return
-	 */
-	@Override
-	public String updateCustomerContact(Account account, Customer customer) {
-		boolean exists = accountDao.existsById(account.getAccountId());
-		if (exists) {
-			customer = customerDao.save(customer);
-			return "Customer Contact Updated Succesfully";
-		}
-		return "Update Unsuccessful";
-	}
+    /**
+     * This method will update the customer name
+     *
+     * @return
+     */
+    @Override
+    public boolean updateCustomerName(Account account, Customer customer) {
+        boolean exists = accountDao.existsById(account.getAccountId());
+        if (exists) {
+            customer = customerDao.save(customer);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * This method will update the customer address
-	 *
-	 * @return
-	 */
-	@Override
-	public String updateCustomerAddress(Account account, Address address) {
-		boolean exists = accountDao.existsById(account.getAccountId());
-		if (exists) {
-			address = addressDao.save(address);
-			return "Customer address added successfully";
-		}
-		return "Update Unsuccessful";
-	}
+    /**
+     * This method will update the customer contact
+     *
+     * @return
+     */
+    @Override
+    public boolean updateCustomerContact(Account account, Customer customer) {
+        boolean exists = accountDao.existsById(account.getAccountId());
+        if (exists) {
+            customer = customerDao.save(customer);
+            return true;
+        }
+        return false;
+    }
 
-	
+    /**
+     * This method will update the customer address
+     *
+     * @return
+     */
+    @Override
+    public boolean updateCustomerAddress(Account account, Address address) {
+        boolean exists = accountDao.existsById(account.getAccountId());
+        if (exists) {
+            address = addressDao.save(address);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This method will add customer details
+     *
+     * @return
+     */
+    @Override
+    public String addCustomerDetails(Customer customer, Address address) {
+        if (customer != null && address != null) {
+            customer = customerDao.save(customer);
+            address = addressDao.save(address);
+            return "Customer details added successfully";
+        }
+        return "Customer details not added";
+    }
 }

@@ -48,10 +48,6 @@ public class AccountUtil {
         details.setAccountId(account.getAccountId());
         details.setAccountBalance(account.getAccountBalance());
         details.setAccountInterest(account.getAccountInterest());
-        details.setAccountBranchId(account.getAccountBranchId());
-        details.setAccountHolderId(account.getAccountHolderId());
-        details.setAccountStatus(account.getAccountStatus());
-        details.setAccountStatus(account.getAccountStatus());
 		return details;
 	}
 	

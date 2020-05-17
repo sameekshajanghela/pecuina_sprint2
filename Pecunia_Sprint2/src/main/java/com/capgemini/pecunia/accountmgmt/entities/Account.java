@@ -35,17 +35,7 @@ public class Account {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	@OneToOne
-	private Address address;
 
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
 
 	public String getAccountId() {
 		return accountId;
