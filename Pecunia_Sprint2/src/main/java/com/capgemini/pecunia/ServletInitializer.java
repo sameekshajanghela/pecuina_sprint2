@@ -1,4 +1,4 @@
-package com.capgemini.pecunia.accountmgmt;
+package com.capgemini.pecunia;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(AccountManagementApplication.class);
+		return application.sources(PecuniaApplication.class);
 	}
 
 }

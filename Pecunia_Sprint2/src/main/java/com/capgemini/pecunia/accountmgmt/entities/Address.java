@@ -4,19 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "address")
 public class Address {
 
     @Id
-    @Min(value = 6)
+    @Size(min = 6)
     private String addressId;
     private String addressLine;
     private String addressCity;
     private String addressState;
     private String addressCountry;
-    @Min(value = 6)
+    @Size(min = 6)
     private String addressZipcode;
 
 

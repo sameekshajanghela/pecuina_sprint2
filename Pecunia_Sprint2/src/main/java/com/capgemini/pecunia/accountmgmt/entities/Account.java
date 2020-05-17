@@ -8,16 +8,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "account")
 public class Account {
 	
 	@Id
-	@Min(value=12)
+	@Size(min=12,max = 12)
 	private String accountId;
 	private String accountHolderId;
-	@Min(value=4)
+	@Size(min = 4)
 	private String accountBranchId;
 	private String accountType;
 	private String accountStatus;
@@ -35,7 +36,17 @@ public class Account {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+	@OneToOne
+	private Address address;
 
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
 
 	public String getAccountId() {
 		return accountId;

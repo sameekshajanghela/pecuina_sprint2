@@ -7,13 +7,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
 
 	@Id
-	@Min(value = 6)
+	@Size(min = 6)
 	private String customerId;
 
 	@NotBlank(message = "Customername cannot be empty and only alphabets are allowed")
@@ -22,20 +24,20 @@ public class Customer {
     @OneToOne
 	private Address customerAddress;
 
-	@Min(value = 12)
+	@Size(min = 12,max = 12)
 	private String customerAadhar;
 
-	@Min(value = 10)
+	@Size(min= 10,max = 10)
 	@NotBlank(message = "First five char should be an alphabet and next four should be digit and last should be an alphabet")
 	private String customerPan;
 
-	@Min(value = 10)
+	@Size(min = 10,max = 10)
 	private String customerContact;
 
 	@NotBlank(message = "Male/Female fields are accepted")
 	private String customerGender;
 
-	@NotBlank(message = "Only valid dates are accepted")
+	@NotNull
 	private Date customerDob;
 
 	/**

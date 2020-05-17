@@ -1,4 +1,4 @@
-package com.capgemini.pecunia.accountmgmt;
+package com.capgemini.pecunia;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,10 +9,10 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableTransactionManagement
-public class AccountManagementApplication {
+public class PecuniaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AccountManagementApplication.class, args);
+		SpringApplication.run(PecuniaApplication.class, args);
 	}
 
 	@Bean

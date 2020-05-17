@@ -1,5 +1,7 @@
 package com.capgemini.pecunia.accountmgmt.util;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 import java.util.Random;
@@ -10,13 +12,14 @@ import com.capgemini.pecunia.accountmgmt.entities.Address;
 import com.capgemini.pecunia.accountmgmt.entities.Customer;
 
 public class AccountUtil {
+    private static final DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	/**
 	 * @param account This method will generate random id according to the length passed           
 	 * @return id
 	 */
-	public static String generateId(int length) {
-		StringBuilder id = new StringBuilder();
+	public static String generateId(String prefix,int length) {
+		StringBuilder id = new StringBuilder(prefix);
 		for (int i = 0; i < length; i++) {
 			Random random = new Random();
 			int number = random.nextInt(9);
@@ -33,8 +36,6 @@ public class AccountUtil {
 		account.setAccountBranchId(accountBranchId);
 		String accountType = (String) request.get("accountType");
 		account.setAccountType(accountType);
-		String accountStatus = (String) request.get("accountStatus");
-		account.setAccountStatus(accountStatus);
 		double accountInterest = (double) request.get("accountInterest");
 		account.setAccountInterest(accountInterest);
 		Date lastUpdated = (Date) request.get("lastUpdate");
@@ -44,10 +45,19 @@ public class AccountUtil {
 	}
 
 	public static AccountDetails convertToDetails(Account account){
+		Customer customer=account.getCustomer();
 		AccountDetails details=new AccountDetails();
         details.setAccountId(account.getAccountId());
         details.setAccountBalance(account.getAccountBalance());
         details.setAccountInterest(account.getAccountInterest());
+        details.setAccountBranchId(account.getAccountBranchId());
+        details.setAccountHolderId(account.getAccountHolderId());
+        details.setAccountStatus(account.getAccountStatus());
+        details.setAccountStatus(account.getAccountStatus());
+        details.setAccountType(account.getAccountType());
+        details.setCustomerId(customer.getCustomerId());
+        details.setCustomerName(customer.getCustomerName());
+        details.setLastUpdated(account.getLastUpdated());
 		return details;
 	}
 	
@@ -55,8 +65,11 @@ public class AccountUtil {
 		Customer customer = new Customer();
 		String customerName = (String) request.get("customerName");
 		customer.setCustomerName(customerName);
-		Date customerDob = (Date) request.get("customerDob");
-		customer.setCustomerDob(customerDob);
+		//Date customerDob = (Date) request.get("customerDob");
+		String customerDobText=(String) request.get("customerDob");
+		LocalDate customerDobLocal=LocalDate.parse(customerDobText,formatter);
+	    Date date=new Date(customerDobLocal.getYear(),customerDobLocal.getMonthValue(),customerDobLocal.getDayOfMonth());
+		customer.setCustomerDob(date);
 		String customerGender = (String) request.get("customerGender");
 		customer.setCustomerGender(customerGender);
 		String customerContact = (String) request.get("customerContact");
